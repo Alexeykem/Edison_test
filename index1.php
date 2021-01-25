@@ -15,12 +15,12 @@ if (!$_POST['Status'] or $_POST['Status']=="empty") {
 		}
 		Echo '<br>';
 		echo 'Пользователь  '.implode(";", $_SESSION['User']);
-		
+
 	}
 }
 
 if ($_POST['Status']=='Zagadal') {
-	
+
 	//логика
 	$medium_guesses=medium_guess(2);
 	echo print_medium_gues($medium_guesses);
@@ -29,9 +29,9 @@ if ($_POST['Status']=='Zagadal') {
 		$_SESSION[$name]['gueses_list'][] = $medium_guesses[$i];
 		$i++;
 	}
-	
+
 	//конец логики
-	
+
 	echo '<form method="POST" action='.$_SERVER['PHP_SELF'].'>';
 	echo '<input type="text" name="myNum" value="" size="2">';
 	echo '<input type="submit" name="Status" value="Proverka">';
@@ -39,13 +39,13 @@ if ($_POST['Status']=='Zagadal') {
 }
 
 if ($_POST['Status']=='Proverka') {
-	
+
 	//логика
 	foreach ($medium_names as $name){
-		
+
 		$ratio=count_guess_ratio($_POST['myNum'],end($_SESSION[$name]['gueses_list']));
 		$_SESSION[$name]['ratio_list'][] = round($ratio,3)*100;
-		
+
 		if (empty($_SESSION[$name]['credibility'])) {
 				$credibility[$name]=100;
 		} else {
@@ -58,10 +58,10 @@ if ($_POST['Status']=='Proverka') {
 			$_SESSION[$name]['credibility'] = $credibility[$name]+1;
 		}
 	}
-	
+
 	$_SESSION['User'][]=$_POST['myNum'];
 	//конец логики
-	
+
 	echo '<form method="POST" action='.$_SERVER['PHP_SELF'].'>';
 	echo '<input type="submit" name="Status" value="empty">';
 	echo '</form>';
@@ -96,6 +96,7 @@ function count_guess_ratio($user_num,$medium_guess){
 	}
 	return $result;
 }
+
 //data_formt
 /*
  $_SESSION['medium1']=array ("gueses_list"=> array(),"ratio_list"=> array(),credibility);
